@@ -22,8 +22,9 @@
 	$_POST['devs'] = array('EXGnG9vV','hO4Mx9Yh','rZteCbX2','TFwqovfw');
 	$_POST['st'] = 0;
 	$_POST['et'] = time();
+	$_POST['save_name'] = 'wdh.xlsx';
 	
-	if( !isset($_POST['devs']) | !isset($_POST['st']) | !isset($_POST['et']) )
+	if( !isset($_POST['devs']) | !isset($_POST['st']) | !isset($_POST['et']) | !isset($_POST['save_name'])  )
 		exit;
 	
 	$et = $_POST['et'];
@@ -196,10 +197,11 @@
 		}
 	}
 	
-	$excel_writer = new PHPExcel_Writer_Excel2007( $PHPExcel );
-	$excel_writer->save( 'wdh.xlsx' );
+	mysql_close( $con );
 	
-/*
+	$excel_writer = new PHPExcel_Writer_Excel2007( $PHPExcel );
+	//$excel_writer->save( 'wdh.xlsx' );
+	
 	header( 'Pragma: public' );
 	header( 'Expires: 0' );
 	header( 'Cache-Control:must-revalidate, post-check=0, pre-check=0' );
@@ -207,14 +209,9 @@
 	header( 'Content-Type:application/vnd.ms-execl' );
 	header( 'Content-Type:application/octet-stream');
 	header( 'Content-Type:application/download' );
-	header( 'Content-Disposition:attachment;filename="resume.xls"' );
+	header( 'Content-Disposition:attachment;filename="'.$_POST['save_name'].'"' );
 	header( 'Content-Transfer-Encoding:binary' );
-	//$excel_writer->save( 'php://output' );
-*/
-
-
-
-	mysql_close( $con );
+	$excel_writer->save( 'php://output' );
 	
 //=============================================================
 	class dev_info {						// dev_info[guid1]
